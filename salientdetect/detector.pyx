@@ -82,7 +82,8 @@ cdef double calc_normalized_euclidian_distance(DoubleCoordinate *a, DoubleCoordi
 cdef void calc_region_score(UInt8[:,:,::1] &img, map[int, coordary*] &regions,
                             map[int, DoubleCoordinate*] &region_centroid,
                             map[int, double*] &region_histgram, double[:, ::1] &color_dist,
-                            map[int, double] &region_scores):
+                            # map[int, double] &region_scores
+                            region_scores):
     cdef double pixels = <double>(img.shape[0] * img.shape[1])
     cdef double score, dist, weight, d
     cdef int regA, regB
@@ -246,7 +247,8 @@ def calc_saliency_score(np.ndarray[np.uint8_t, ndim=3, mode="c"] img,
     cdef map[int, coordary*] regions
     cdef map[int, DoubleCoordinate*] region_centroid
     cdef map[int, double*] region_histgram
-    cdef map[int, double] scores
+    # cdef map[int, double] scores
+    scores = {}
     create_color_idx(reduced, shape[1], shape[0], color_idx)
     label_to_regions(segment_labels.astype(np.int32), regions)
     calc_region_centroid(regions, region_centroid)
